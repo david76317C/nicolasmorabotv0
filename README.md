@@ -45,7 +45,7 @@ Es decir: conocer todo el pasado no da ninguna ventaja para predecir el signo de
 Que la media condicional sea cero no implica que *todo* sea impredecible. La varianza condicional **no** es constante:
 
 $$
-\mathrm{Var}\big[\,r_{t+1} \mid \mathcal{F}_t\,\big] = \sigma_t^2 \quad\text{con}\quad \sigma_t^2 \neq \text{constante}.
+\mathrm{Var}\big[\ r_{t+1} \mid \mathcal{F}_t\ \big] = \sigma_t^2 \quad\text{con}\quad \sigma_t^2 \neq \text{constante}.
 $$
 
 Los mercados exhiben **agrupamiento de volatilidad** (volatility clustering): periodos tranquilos tienden a seguir a periodos tranquilos, y periodos turbulentos a periodos turbulentos. Formalmente, aunque $r_{t+1}$ sea impredecible en media, su magnitud al cuadrado $r_{t+1}^2$ está autocorrelacionada, lo que hace que $\sigma_t^2$ sea pronosticable a partir de la volatilidad reciente. El EDA del proyecto confirma exactamente esto: regímenes de varianza largos y persistentes, y una distribución de retornos con colas pesadas.
@@ -98,7 +98,7 @@ Sobre los cortos: el framework permite posiciones cortas, y por eso incluimos un
 La recompensa `_reward()` parte del log-retorno del valor de la cartera, $r_t = \log(V_t / V_{t-1})$, y le aplica las penalizaciones según la formulación elegida. La formulación final, `combined`, resta una penalización proporcional a la rotación y otra proporcional al incremento de drawdown:
 
 $$
-R_t = \log\!\frac{V_t}{V_{t-1}} \;-\; \lambda_{tc}\cdot \text{turnover}_t \;-\; \lambda_{dd}\cdot \Delta\text{drawdown}_t .
+R_t = \log\frac{V_t}{V_{t-1}} - \lambda_{tc}\cdot \text{turnover}_t - \lambda_{dd}\cdot \text{drawdown}_t .
 $$
 
 Es importante subrayar que el entorno base **ya cobra** la comisión de 10 puntos básicos sobre el valor de la cartera en cada rebalanceo; las penalizaciones de la recompensa solo **moldean el aprendizaje** (empujan al agente a operar menos y a evitar caídas), pero nunca alteran las métricas reportadas, que se calculan sobre el valor real de la cartera después de comisiones.
@@ -124,9 +124,9 @@ A primera vista parecería que `diff_sharpe` o `log_return` aplastan a `combined
 El cálculo de métricas anualiza con un factor de frecuencia `freq`. Para datos **horarios** lo correcto es `freq = 8760` (horas por año); `freq = 252` correspondería a datos diarios. El problema es que el retorno anualizado y la volatilidad anualizada dependen *ambos* de `freq`, y de forma muy distinta:
 
 $$
-r_{\text{ann}} = (1+r_{\text{cum}})^{\,\text{freq}/n} - 1,
+r_{\text{ann}} = (1+r_{\text{cum}})^{\,\text{freq}/n} - 1
 \qquad
-\sigma_{\text{ann}} = \sigma(r)\cdot\sqrt{\text{freq}},
+\sigma_{\text{ann}} = \sigma(r)\cdot\sqrt{\text{freq}}
 \qquad
 \text{Sortino} = \frac{r_{\text{ann}}}{\sigma_d\cdot\sqrt{\text{freq}}}
 $$
