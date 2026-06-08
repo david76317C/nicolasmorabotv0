@@ -124,11 +124,11 @@ A primera vista parecería que `diff_sharpe` o `log_return` aplastan a `combined
 El cálculo de métricas anualiza con un factor de frecuencia `freq`. Para datos **horarios** lo correcto es `freq = 8760` (horas por año); `freq = 252` correspondería a datos diarios. El problema es que el retorno anualizado y la volatilidad anualizada dependen *ambos* de `freq`, y de forma muy distinta:
 
 $$
-\text{ann\_ret} = (1+\text{cum\_ret})^{\,\text{freq}/\text{len}(r)} - 1,
+r_{\text{ann}} = (1+r_{\text{cum}})^{\,\text{freq}/n} - 1,
 \qquad
-\text{ann\_vol} = \text{std}(r)\cdot\sqrt{\text{freq}},
+\sigma_{\text{ann}} = \sigma(r)\cdot\sqrt{\text{freq}},
 \qquad
-\text{Sortino} = \frac{\text{ann\_ret}}{\text{dstd}\cdot\sqrt{\text{freq}}} .
+\text{Sortino} = \frac{r_{\text{ann}}}{\sigma_d\cdot\sqrt{\text{freq}}}
 $$
 
 En el retorno anualizado, `freq` aparece en el **exponente** $\text{freq}/\text{len}(r)$, de modo que 8760 infla el numerador muchísimo más que 252. En la volatilidad y en la desviación a la baja, `freq` entra como $\sqrt{\text{freq}}$, lo que supone un factor $\sqrt{8760}/\sqrt{252}\approx 5.9\times$ respecto a la convención diaria. Cuando una estrategia tiene muy pocos pasos negativos porque casi nunca pierde en el periodo evaluado, la desviación a la baja `dstd` se vuelve diminuta, y al dividir un numerador inflado por un denominador casi nulo el Sortino se dispara a cientos de miles. Eso es lo que ocurre con `diff_sharpe`, `drawdown_penalized` y `log_return`: no es que ganen mucho, es que su denominador colapsa.
