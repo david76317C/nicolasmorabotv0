@@ -29,13 +29,13 @@ El supuesto principal del bot es que la **dirección** del precio es esencialmen
 Decimos que el proceso de precios $\{P_t\}$ es una **martingala** respecto a la información disponible $\mathcal{F}_t$ (todo lo observable hasta el instante $t$) si el mejor pronóstico del precio futuro es el precio de hoy:
 
 $$
-\mathbb{E}\big[\,P_{t+1} \mid \mathcal{F}_t\,\big] = P_t .
+\mathbb{E}\big[\ P_{t+1} \mid \mathcal{F}_t\ \big] = P_t 
 $$
 
 De forma equivalente, en términos del retorno $r_{t+1} = \log(P_{t+1}/P_t)$, la propiedad de martingala (en su versión de diferencias de martingala) implica que el retorno esperado condicional es cero:
 
 $$
-\mathbb{E}\big[\,r_{t+1} \mid \mathcal{F}_t\,\big] = 0 .
+\mathbb{E}\big[\ r_{t+1} \mid \mathcal{F}_t\ \big] = 0 
 $$
 
 Es decir: conocer todo el pasado no da ninguna ventaja para predecir el signo del próximo movimiento. Si esto se cumple, cualquier estrategia que intente "adivinar la dirección" del próximo paso está condenada a no extraer valor sistemático del componente direccional; solo cosechará ruido y pagará comisiones por el intento.
