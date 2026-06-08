@@ -1,0 +1,32 @@
+data:
+  assets: ["asset_0", "asset_1", "asset_2", "cash"]
+  lookback_window: 30        # days of price history in observation
+
+splits:
+  walk_forward:
+    - {train_end: "2019-12-31", eval_end: "2020-12-31"}
+    - {train_end: "2020-12-31", eval_end: "2021-12-31"}
+    - {train_end: "2021-12-31", eval_end: "2022-12-31"}
+    - {train_end: "2022-12-31", eval_end: "2023-12-31"}
+    - {train_end: "2023-12-31", eval_end: "2025-12-31"}
+  held_out_end: "2026-12-31"   # never touch until final evaluation
+
+env:
+  transaction_cost_bps: 10    # firm policy minimum
+  initial_cash: 10000.0
+
+agent:
+  algorithm: "dqn"            # change to your choice
+  hidden_dims: [256, 256]
+  learning_rate: 1.0e-4
+  gamma: 0.99
+  epsilon_start: 1.0
+  epsilon_end: 0.05
+  epsilon_decay_steps: 50000
+  batch_size: 64
+  replay_buffer_size: 100000
+  target_update_freq: 1000
+  train_steps: 200000
+
+eval:
+  transaction_costs_ablation: [0, 10, 25]  # required: report all three
